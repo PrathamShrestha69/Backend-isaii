@@ -35,7 +35,6 @@ app.get("/", (req, res) => {
     message: "PrepDash API - Simplified",
     endpoints: {
       auth: "/api/auth",
-      resume: "/api/resume",
       tests: "/api/tests",
     },
   });
