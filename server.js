@@ -7,9 +7,8 @@ import { dirname } from "path";
 import connectDB from "./src/config/database.js";
 import errorHandler from "./src/middleware/errorHandler.js";
 
-// Routes
+
 import authRoutes from "./src/routes/auth.route.js";
-import resumeRoutes from "./src/routes/resume.route.js";
 import testRoutes from "./src/routes/test.route.js";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -17,15 +16,19 @@ const __dirname = dirname(__filename);
 
 const app = express();
 
-// Connect DB
+
 connectDB();
 
-// Middleware
-app.use(cors({ origin: process.env.FRONTEND_URL, credentials: true }));
+app.use(cors({
+  origin: process.env.FRONTEND_URL,
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
 app.use(express.json());
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
-// Routes
+
 app.get("/", (req, res) => {
   res.json({
     success: true,
@@ -39,7 +42,6 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/auth", authRoutes);
-app.use("/api/resume", resumeRoutes);
 app.use("/api/tests", testRoutes);
 
 // Error handler
